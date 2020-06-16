@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Peon.CLI": {
+      "commandName": "Project"
+    }
+  }
+}
