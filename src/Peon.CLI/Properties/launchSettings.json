@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Peon.CLI": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "get --models-dir \"C:\\Users\\cros4\\Desktop\\pypy\" --path \"C:\\Users\\cros4\\Desktop\\pypy\" --verbose"
     }
   }
 }

@@ -1,48 +1,79 @@
-﻿using System;
+﻿using Peon.CLI.Interfaces;
+using Serilog;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Text;
+using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Peon.CLI.Services
 {
-    internal class ListfileService
+    public class ListfileService : IListfileService
     {
-        private WebClient _webClient = new WebClient();
-        private static string _listfile = "listfile.csv";
-        private static Dictionary<uint, string> _filedataPair = new Dictionary<uint, string>();
+        private IHttpClientFactory _httpFactory { get; set; }
 
-        internal bool Initialized;
+        private static Dictionary<uint, string> _fileDataPair = new Dictionary<uint, string>();
 
-        internal void Initialize()
+        public ListfileService(IHttpClientFactory httpFactory)
         {
-            if (!File.Exists(_listfile))
-            {
-                _webClient.DownloadFile("https://wow.tools/casc/listfile/download/csv/unverified", _listfile);
+            _httpFactory = httpFactory;
+        }
 
-                Initialized = true;
+        public async Task Initialize()
+        {
+            var listfile = "listfile.csv";
+
+            if (!File.Exists(listfile))
+            {
+                var client = _httpFactory.CreateClient();
+                var response = await client.GetAsync("https://wow.tools/casc/listfile/download/csv/unverified");
+
+                var fullPathAndFilename = Path.Combine(Assembly.GetEntryAssembly().Location, @"..\", listfile);
+
+                using var fileStream = File.Create(fullPathAndFilename);
+                using var dataStream = await response.Content.ReadAsStreamAsync();
+
+                await dataStream.CopyToAsync(fileStream);
             }
             else
             {
-                using (var reader = new StreamReader(_listfile))
+                using var reader = new StreamReader(listfile);
+
+                while (!reader.EndOfStream)
                 {
-                    while (!reader.EndOfStream)
-                    {
-                        var line = reader.ReadLine();
-                        var array = line.Split(';');
+                    var line = reader.ReadLine();
+                    var array = line.Split(';');
 
-                        _filedataPair.Add(uint.Parse(array[0]), array[1]);
-                    }
-
-                    Initialized = true;
+                    _fileDataPair.Add(uint.Parse(array[0]), array[1]);
                 }
             }
         }
 
-        internal string GetFilenameById(uint id)
+        public async Task GenerateNew(string listfile, IReadOnlyList<uint> fileIds, bool verbose)
         {
-            if (_filedataPair.TryGetValue(id, out string filename))
+            File.WriteAllText(listfile, "");
+
+            using var stream = File.Open(listfile, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            using var writer = new StreamWriter(stream);
+
+            foreach (var fileId in fileIds)
+            {
+                var filename = GetFilenameById(fileId);
+
+                if (verbose)
+                {
+                    Log.Debug($"Writing: {fileId};{filename}");
+                }
+
+                await writer.WriteLineAsync($"{fileId};{filename}");
+            }
+
+            writer.Close();
+        }
+
+        public string GetFilenameById(uint id)
+        {
+            if (_fileDataPair.TryGetValue(id, out string filename))
             {
                 return filename;
             }
