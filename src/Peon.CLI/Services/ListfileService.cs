@@ -1,9 +1,9 @@
 ﻿using Peon.CLI.Interfaces;
 using Serilog;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Peon.CLI.Services
@@ -28,7 +28,7 @@ namespace Peon.CLI.Services
                 var client = _httpFactory.CreateClient();
                 var response = await client.GetAsync("https://wow.tools/casc/listfile/download/csv/unverified");
 
-                var fullPathAndFilename = Path.Combine(Assembly.GetEntryAssembly().Location, @"..\", listfile);
+                var fullPathAndFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, listfile);
 
                 using var fileStream = File.Create(fullPathAndFilename);
                 using var dataStream = await response.Content.ReadAsStreamAsync();

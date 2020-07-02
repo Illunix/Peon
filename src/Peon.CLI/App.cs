@@ -8,7 +8,6 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -94,7 +93,7 @@ namespace Peon.CLI
                         {
                             Log.Error("You can't use path arg without any model provided");
                         }
-     
+
                         return;
                     }
 

@@ -7,7 +7,7 @@ Current features:
 - Lookup for file ids in single model, for each model in models list or models in directory 
 - Download files or generate listfile from files of readed models
 
-Releases are provided for Windows x64, Linux x64, Linux ARM and MacOS x64. This has only been tested on Windows.
+Releases are provided for Windows x64, Linux x64 and MacOS x64. This has only been tested on Windows.
 
 [Find the latest release here](https://github.com/illunix/Peon/releases).
 
