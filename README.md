@@ -17,6 +17,11 @@ Releases are provided for Windows x64, Linux x64 and MacOS x64. This has only be
 To list all commands type ```Peon.exe --help```,
 to list all options of command type ```Peon.exe [command] --help```
 
+## How it works?
+* Read ``M2`` -> Get all ``anim``, ``skin`` and ``blp`` files
+* Read ``WMO`` -> Get all ``m2`` and ``blp`` files ->  Read ``M2``
+* Read ``ADT`` -> Get all ``wmo``and ``blp`` files -> Read ``WMO``-> Read ``ADT``
+
 ## Examples of use
 ```
 Peon.exe get --model "C:\Users\sample\Desktop\sylvanasshadowlands.m2"
@@ -24,3 +29,7 @@ Peon.exe get --model "C:\Users\sample\Desktop\sylvanasshadowlands.m2"
 ```
 Peon.exe generate --listfile "C:\Users\sample\Desktop\listfile.csv" --models-dir "C:\Users\sample\Desktop\MyModels" --verbose
 ```
+
+## Links
+- [Discord](https://discord.gg/vcpwDVN)
+- [Model Changing](https://model-changing.net/)
