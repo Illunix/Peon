@@ -1,6 +1,6 @@
 # Peon
 ## Motivation
-Lookuping for a file ids of model is very boring, Peon gives solutions to do it quickly and mostly without user intervention.
+Lookuping for a file ids of model is very boring, Peon gives solutions to do it quickly and mostly without user interaction.
 
 ## What can it do
 Current features:
