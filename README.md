@@ -20,7 +20,7 @@ to list all options of command type ```Peon.exe [command] --help```
 ## How it works?
 * Read ``M2`` -> Get all ``anim``, ``skin`` and ``blp`` files
 * Read ``WMO`` -> Get all ``m2`` and ``blp`` files ->  Read ``M2``
-* Read ``ADT`` -> Get all ``wmo``and ``blp`` files -> Read ``WMO``-> Read ``ADT``
+* Read ``ADT`` -> Get all ``wmo``and ``blp`` files -> Read ``WMO``-> Read ``M2``
 
 ## Examples of use
 ```
